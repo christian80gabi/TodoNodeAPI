@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// $ npx prisma init
+// ✔ Your Prisma schema was created at prisma/schema.prisma
+//   You can now open it in your favorite editor.
+// atabase has no tables yet, read https://pris.ly/d/getting-started
+// 2. Set the provider of the datasource block in schema.prisma to match your database: postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb.
+// 3. Run prisma db pull to turn your database schema into a Prisma schema.
+// 4. Run prisma generate to generate the Prisma Client. You can then start querying your database.
+
+// npx prisma migrate dev --name init
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+  todos Todo[]
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  completed Boolean @default(false)
+  author    User?   @relation(fields: [authorId], references: [id])
+  authorId  Int?
+}
