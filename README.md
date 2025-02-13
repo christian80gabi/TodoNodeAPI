@@ -2,7 +2,7 @@
 
 Todo Node.JS API using TypeScript and Prima
 
-- TypeScript 4.x
+- TypeScript 5.x
 - Prima 4.x
 
 ## # Init

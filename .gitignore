@@ -103,5 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-# Postgres volumes
-postgres/
+# Postgres Data volumes
+.postgresql/
+
+# Prisma
+prisma/**/migrations/
+/**/migrations/

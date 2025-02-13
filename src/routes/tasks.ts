@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import e from "express";
 import express from 'express';
 
 const prisma = new PrismaClient();
@@ -7,11 +8,11 @@ const router = express.Router();
 
 app.use(express.json())
 
-// TODOs / Tasks
+// Tasks
 
 router.get('', async (req, res) => {
-    const tasks = await prisma.todo.findMany({
-        where: { completed: false },
+    const tasks = await prisma.task.findMany({
+        where: { status: { in: ['NEW', 'IN_PROGRESS'] } },
         include: { author: true }
     })
     res.json(tasks)
@@ -19,7 +20,7 @@ router.get('', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = req.params
-    const task = await prisma.todo.findUnique({
+    const task = await prisma.task.findUnique({
         where: { id: Number(id) },
     })
     res.json(task)
@@ -27,11 +28,11 @@ router.get('/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
     const { title, content, authorEmail } = req.body
-    const result = await prisma.todo.create({
+    const result = await prisma.task.create({
         data: {
             title,
             content,
-            completed: false,
+            status: "NEW",
             author: { connect: { email: authorEmail } }
         },
     })
@@ -40,19 +41,19 @@ router.post('/create', async (req, res) => {
 
 router.put('/:id/complete', async (req, res) => {
     const { id } = req.params
-    const task = await prisma.todo.update({
+    const task = await prisma.task.update({
         where: { id: Number(id) },
-        data: { completed: true },
+        data: { status: "DONE" },
     })
     res.json(task)
 })
 
 router.delete('/:id/delete', async (req, res) => {
     const { id } = req.params
-    const task = await prisma.todo.delete({
+    const task = await prisma.task.delete({
         where: { id: Number(id) },
     })
     res.json(task)
 })
 
-module.exports = router
+export default router; // module.exports = router

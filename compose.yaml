@@ -1,0 +1,33 @@
+# ---------------------------------------- #
+#              DOCKER COMPOSE              #
+# ---------------------------------------- #
+#                 PostgreSQL                #
+# ---------------------------------------- #
+
+services:
+  db:
+    image: postgres
+    container_name: todopostgresdb
+    environment:
+      POSTGRES_USER: dba
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tododb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  default: {}
+
+# docker exec -it todopostgresdb psql -U postgres -d tododb
+# CREATE ROLE dba;
+# ALTER ROLE dba LOGIN;
+# GRANT ALL PRIVILEGES ON DATABASE tododb TO dba;
+# ALTER ROLE dba WITH PASSWORD 'new_password';

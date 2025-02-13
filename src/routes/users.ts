@@ -18,4 +18,4 @@ router.post('/create', async (req, res) => {
     res.json(result)
 })
 
-module.exports = router
+export default router; // module.exports = router
