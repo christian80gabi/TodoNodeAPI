@@ -7,7 +7,7 @@ async function main() {
         data: {
             name: 'Alice',
             email: 'alice@prisma.io',
-            todos: {
+            tasks: {
                 create: {
                     title: "Do laundry",
                 },
@@ -17,7 +17,7 @@ async function main() {
     console.log('Created new user: ', newUser)
 
     const allUsers = await prisma.user.findMany({
-        include: { todos: true },
+        include: { tasks: true },
     })
     console.log('All users: ')
     console.dir(allUsers, { depth: null })
